@@ -4,7 +4,8 @@
 Generic Image Transform utillities.
 """
 
-import cv2
+#import cv2
+from PIL import Image
 import numpy as np
 from collections import Iterable
 
@@ -24,14 +25,16 @@ class ResizePad:
         self.h, self.w = size
 
     def __call__(self, img):
-        h, w = img.shape[:2]
+        h, w = img.size
         scale = min(self.h / h, self.w / w)
         resized_h = int(np.round(h * scale))
         resized_w = int(np.round(w * scale))
         pad_h = int(np.floor(self.h - resized_h) / 2)
         pad_w = int(np.floor(self.w - resized_w) / 2)
 
-        resized_img = cv2.resize(img, (resized_w, resized_h))
+        #resized_img = cv2.resize(img, (resized_w, resized_h))
+        resized_img = img.resize((resized_w, resized_h))
+        resized_img = np.array(resized_img)
 
         # if img.ndim > 2:
         if img.ndim > 2:
